@@ -74,11 +74,11 @@ public sealed class SqlBulkInsertService : IBulkInsertService
 
         table.Columns.Add("PickupDatetimeUtc", typeof(DateTime));
         table.Columns.Add("DropoffDatetimeUtc", typeof(DateTime));
-        table.Columns.Add("PassengerCount", typeof(byte));
+        table.Columns.Add("PassengerCount", typeof(int));
         table.Columns.Add("TripDistance", typeof(decimal));
         table.Columns.Add("StoreAndFwdFlag", typeof(string));
-        table.Columns.Add("PULocationID", typeof(short));
-        table.Columns.Add("DOLocationID", typeof(short));
+        table.Columns.Add("PULocationID", typeof(int));
+        table.Columns.Add("DOLocationID", typeof(int));
         table.Columns.Add("FareAmount", typeof(decimal));
         table.Columns.Add("TipAmount", typeof(decimal));
 

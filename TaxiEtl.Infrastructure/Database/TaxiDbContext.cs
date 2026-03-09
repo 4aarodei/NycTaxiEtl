@@ -18,10 +18,7 @@ public sealed class TaxiDbContext : DbContext
         {
             entity.ToTable("TaxiRides");
 
-            entity.HasKey(e => e.Id);
-
-            entity.Property(e => e.Id)
-                .UseIdentityColumn();
+            entity.HasKey(e => new { e.PickupDatetimeUtc, e.DropoffDatetimeUtc, e.PassengerCount });
 
             entity.Property(e => e.PickupDatetimeUtc)
                 .HasColumnType("datetime2")

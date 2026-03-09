@@ -8,18 +8,18 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TaxiRides')
 BEGIN
     CREATE TABLE [dbo].[TaxiRides] (
-        [Id]                 BIGINT          IDENTITY(1,1) NOT NULL,
-        [PickupDatetimeUtc]  DATETIME2       NOT NULL,
-        [DropoffDatetimeUtc] DATETIME2       NOT NULL,
-        [PassengerCount]     TINYINT         NOT NULL,
-        [TripDistance]        DECIMAL(10, 2)  NOT NULL,
-        [StoreAndFwdFlag]    NVARCHAR(3)     NOT NULL,
-        [PULocationID]       SMALLINT        NOT NULL,
-        [DOLocationID]       SMALLINT        NOT NULL,
-        [FareAmount]         DECIMAL(10, 2)  NOT NULL,
-        [TipAmount]          DECIMAL(10, 2)  NOT NULL,
+        [PickupDatetimeUtc]  DATETIME2      NOT NULL,
+        [DropoffDatetimeUtc] DATETIME2      NOT NULL,
+        [PassengerCount]     INT            NOT NULL,
+        [TripDistance]       DECIMAL(10,2)  NOT NULL,
+        [StoreAndFwdFlag]    NVARCHAR(3)    NOT NULL,
+        [PULocationID]       INT            NOT NULL,
+        [DOLocationID]       INT            NOT NULL,
+        [FareAmount]         DECIMAL(10,2)  NOT NULL,
+        [TipAmount]          DECIMAL(10,2)  NOT NULL,
 
-        CONSTRAINT [PK_TaxiRides] PRIMARY KEY CLUSTERED ([Id])
+        CONSTRAINT [PK_TaxiRides]
+            PRIMARY KEY ([PickupDatetimeUtc], [DropoffDatetimeUtc], [PassengerCount])
     );
 
     -- Query: Find PULocationId with highest average tip_amount + search with PULocationId

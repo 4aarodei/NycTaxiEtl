@@ -47,7 +47,7 @@ public sealed class TaxiRideTransformer : ITaxiRideTransformer
                 return false;
             }
 
-            if (!byte.TryParse(passengerCountRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var passengerCount))
+            if (!int.TryParse(passengerCountRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var passengerCount))
             {
                 error = $"Invalid passenger count: '{passengerCountRaw}'";
                 return false;
@@ -59,13 +59,13 @@ public sealed class TaxiRideTransformer : ITaxiRideTransformer
                 return false;
             }
 
-            if (!short.TryParse(puLocationIdRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var puLocationId))
+            if (!int.TryParse(puLocationIdRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var puLocationId))
             {
                 error = $"Invalid PULocationID: '{puLocationIdRaw}'";
                 return false;
             }
 
-            if (!short.TryParse(doLocationIdRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var doLocationId))
+            if (!int.TryParse(doLocationIdRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var doLocationId))
             {
                 error = $"Invalid DOLocationID: '{doLocationIdRaw}'";
                 return false;
@@ -80,6 +80,18 @@ public sealed class TaxiRideTransformer : ITaxiRideTransformer
             if (!decimal.TryParse(tipAmountRaw, NumberStyles.Number, CultureInfo.InvariantCulture, out var tipAmount))
             {
                 error = $"Invalid tip amount: '{tipAmountRaw}'";
+                return false;
+            }
+
+            if (passengerCount <= 0)
+            {
+                error = "Passenger count must be greater than zero.";
+                return false;
+            }
+
+            if (tripDistance < 0 || fareAmount < 0 || tipAmount < 0)
+            {
+                error = "Trip distance, fare amount, and tip amount must be non-negative.";
                 return false;
             }
 

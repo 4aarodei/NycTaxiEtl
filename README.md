@@ -41,7 +41,7 @@ This tool reads a CSV file of NYC taxi trips, cleans and transforms the data, re
 
 **Option A — SQL script:**
 ```bash
-sqlcmd -S (localdb)\MSSQLLocalDB -i scripts/create_database.sql
+sqlcmd -S "(localdb)\MSSQLLocalDB" -i NycTaxiEtl/scripts/create_database.sql
 ```
 
 **Option B — EF Core migration:**
@@ -52,7 +52,7 @@ dotnet ef database update --project NycTaxiEtl
 ### 2. Place the input CSV
 
 Put your CSV file at the path defined in `appsettings.json` → `TaxiEtl:InputCsvPath`  
-(default: `data/taxi_rides.csv`)
+(currently in repo: `C:\Users\marak\Downloads\sample-cab-data.csv` — change this to a local path on your machine)
 
 ### 3. Run
 
@@ -69,11 +69,13 @@ All settings live in `appsettings.json`:
 | Setting | Description | Default |
 |---|---|---|
 | `ConnectionStrings:DefaultConnection` | SQL Server connection string | LocalDB |
-| `TaxiEtl:InputCsvPath` | Path to the input CSV file | `data/taxi_rides.csv` |
+| `TaxiEtl:InputCsvPath` | Path to the input CSV file | `C:\Users\marak\Downloads\sample-cab-data.csv` |
 | `TaxiEtl:DuplicatesCsvPath` | Path to write duplicate rows | `output/duplicates.csv` |
-| `TaxiEtl:BatchSize` | Rows per bulk insert batch | `50000` |
+| `TaxiEtl:BatchSize` | Rows per bulk insert batch | `500000` |
+| `TaxiEtl:ProgressLogInterval` | How often progress is logged (processed rows) | `10000` |
 | `TaxiEtl:BulkCopyTimeoutSeconds` | SqlBulkCopy timeout | `600` |
 | `TaxiEtl:SourceTimeZoneId` | Timezone of input data | `Eastern Standard Time` |
+| `TaxiEtl:DestinationTableName` | Destination SQL table for bulk copy | `dbo.TaxiRides` |
 
 ---
 
@@ -138,7 +140,7 @@ ORDER BY DurationMinutes DESC;
 - Duplicate detection uses the combination of `tpep_pickup_datetime`, `tpep_dropoff_datetime`, and `passenger_count` as specified.
 - `store_and_fwd_flag` values other than `Y` / `N` are treated as invalid and the row is skipped.
 - All datetime values in the source CSV are in Eastern Standard Time and are converted to UTC on insert.
-- The `Id` column uses `IDENTITY` since it is not present in the source data.
+- The destination table uses a composite primary key: `PickupDatetimeUtc + DropoffDatetimeUtc + PassengerCount`.
 - Rows with unparseable, out-of-range, or missing numeric fields are skipped (counted as invalid).
 
 ---

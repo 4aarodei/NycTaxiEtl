@@ -32,7 +32,7 @@ This tool reads a CSV file of NYC taxi trips, cleans and transforms the data, re
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
 - SQL Server (LocalDB, Express, or full instance)
-
+- `dotnet-ef` CLI tool (required only for migration-based setup)
 ---
 
 ## 🚀 Getting Started
@@ -46,7 +46,8 @@ sqlcmd -S "(localdb)\MSSQLLocalDB" -i NycTaxiEtl/scripts/create_database.sql
 
 **Option B — EF Core migration:**
 ```bash
-dotnet ef database update --project NycTaxiEtl
+dotnet tool install --global dotnet-ef
+dotnet ef database update --project NycTaxiEtl --startup-project NycTaxiEtl
 ```
 
 ### 2. Place the input CSV

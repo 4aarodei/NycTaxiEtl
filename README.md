@@ -44,9 +44,11 @@ All settings are in `appsettings.json`:
 
 ## Results
 
-- **Rows inserted**: _(fill in after running)_
-- **Duplicates removed**: _(fill in after running)_
-- **Invalid rows skipped**: _(fill in after running)_
+After running the ETL pipeline on the dataset:
+
+Rows inserted into TaxiRides table: <ACTUAL_COUNT>
+
+Duplicate rows written to duplicates.csv: <ACTUAL_DUP_COUNT>
 
 ## Database Schema & Indexing Strategy
 
@@ -64,14 +66,13 @@ The table is optimized for the following queries specified in the requirements:
 - Duplicate detection is based on a combination of `tpep_pickup_datetime`, `tpep_dropoff_datetime`, and `passenger_count` as specified in the requirements.
 - The `store_and_fwd_flag` values other than `Y` / `N` are treated as invalid rows and skipped.
 - All datetime values in the source CSV are in Eastern Standard Time (EST/EDT) and are converted to UTC on insert.
-- The `Id` column uses `IDENTITY` since it is not present in the source data.
 - Rows with unparseable or missing numeric fields are skipped (counted as invalid).
 
 ## Scaling to 10 GB+ CSV Files
 
 For a 10 GB input file, the following changes would be necessary:
 
-1. **Parallel pipeline with `Channel<T>`**: Use a producer–consumer pattern where one thread reads and parses CSV rows, while multiple consumer threads handle transformation, deduplication, and bulk insertion concurrently.
+1. **Parallel pipeline with `Channel<T>`**: Use a producerâ€“consumer pattern where one thread reads and parses CSV rows, while multiple consumer threads handle transformation, deduplication, and bulk insertion concurrently.
 2. **Database-side deduplication**: The in-memory `HashSet` will consume too much RAM at scale. Replace it with a staging table + `INSERT ... WHERE NOT EXISTS` or use a `MERGE` statement. Alternatively, use a Bloom filter for a fast probabilistic first-pass, with exact dedup on the database side.
 3. **Minimal logging**: Switch the database to `BULK_LOGGED` recovery model during import and use `TABLOCK` hint in `SqlBulkCopy` to enable minimal logging, which dramatically improves insert throughput.
 4. **Drop and rebuild indexes**: Remove non-clustered indexes before the bulk load and recreate them afterward to eliminate per-batch index maintenance overhead.

@@ -15,21 +15,19 @@ namespace NycTaxiEtl.Migrations
                 name: "TaxiRides",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     PickupDatetimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DropoffDatetimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PassengerCount = table.Column<byte>(type: "tinyint", nullable: false),
+                    PassengerCount = table.Column<int>(type: "int", nullable: false),
                     TripDistance = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     StoreAndFwdFlag = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    PULocationID = table.Column<short>(type: "smallint", nullable: false),
-                    DOLocationID = table.Column<short>(type: "smallint", nullable: false),
+                    PULocationID = table.Column<int>(type: "int", nullable: false),
+                    DOLocationID = table.Column<int>(type: "int", nullable: false),
                     FareAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     TipAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaxiRides", x => x.Id);
+                    table.PrimaryKey("PK_TaxiRides", x => new { x.PickupDatetimeUtc, x.DropoffDatetimeUtc, x.PassengerCount });
                 });
 
             migrationBuilder.CreateIndex(

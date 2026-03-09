@@ -23,18 +23,11 @@ namespace NycTaxiEtl.Migrations
                 .HasAnnotation("ProductVersion", "8.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
             modelBuilder.Entity("TaxiEtl.Domain.Entities.TaxiRide", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<short>("DOLocationID")
-                        .HasColumnType("smallint");
+                    b.Property<int>("DOLocationID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DropoffDatetimeUtc")
                         .HasColumnType("datetime2");
@@ -42,11 +35,11 @@ namespace NycTaxiEtl.Migrations
                     b.Property<decimal>("FareAmount")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<short>("PULocationID")
-                        .HasColumnType("smallint");
+                    b.Property<int>("PULocationID")
+                        .HasColumnType("int");
 
-                    b.Property<byte>("PassengerCount")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("PassengerCount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PickupDatetimeUtc")
                         .HasColumnType("datetime2");
@@ -62,7 +55,7 @@ namespace NycTaxiEtl.Migrations
                     b.Property<decimal>("TripDistance")
                         .HasColumnType("decimal(10,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PickupDatetimeUtc", "DropoffDatetimeUtc", "PassengerCount");
 
                     b.HasIndex("PULocationID")
                         .HasDatabaseName("IX_TaxiRides_PULocationID");

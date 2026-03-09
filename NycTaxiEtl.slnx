@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="TaxiEtl.Application/TaxiEtl.Application.csproj" Id="86ab5d01-bd47-49f6-9ca7-a072c98190cf" />
+  <Project Path="TaxiEtl.Domain/TaxiEtl.Domain.csproj" Id="15b326fa-e61b-4392-b631-d19fac1fa82a" />
+  <Project Path="TaxiEtl.Infrastructure/TaxiEtl.Infrastructure.csproj" Id="50d879e0-8bf6-4bd5-9896-5916d5255340" />
+  <Project Path="TaxiEtl.Shared/TaxiEtl.Shared.csproj" Id="49d65d2f-a937-45dc-9408-2f66e77fc836" />
+  <Project Path="NycTaxiEtl/NycTaxiEtl.csproj" />
+</Solution>

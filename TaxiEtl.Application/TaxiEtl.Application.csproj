@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaxiEtl.Domain\TaxiEtl.Domain.csproj" />
+    <ProjectReference Include="..\TaxiEtl.Shared\TaxiEtl.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
